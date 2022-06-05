@@ -1,7 +1,6 @@
 pragma solidity ^0.8.0;
 
 contract Blackjack {
-
 // Define our game rules here
 
 // The player can bet up to 100 Ether on each hand
@@ -23,10 +22,9 @@ uint256[] public aceValues = [1, 11];
 // Face cards are worth 10 points
 uint256[] public faceCardValues = [10];
 
-// All other cards are worth their numeric value
+// All other cards are worth their numeric value'
 
 // Define our interface here
-
 // Function to deal a card to a player
 function dealCard(address player) external;
 
@@ -41,53 +39,47 @@ function newHand() external;
 
 // Main function to start our game
 function main() public {
+  // Welcome our players!
 
-// Welcome our players!
+  // Deal two cards to each player
+  dealCard(msg.sender);
+  dealCard(msg.sender);
 
-// Deal two cards to each player
-dealCard(msg.sender);
-dealCard(msg.sender);
+  // Deal two cards to the dealer
+  dealCard(this);
+  dealCard(this);
 
-// Deal two cards to the dealer
-dealCard(this);
-dealCard(this);
+  // Have the player make their move
+  makePlayerMove();
 
-// Have the player make their move
-makePlayerMove();
+  // Have the dealer make their move
+  makeDealerMove();
 
-// Have the dealer make their move
-makeDealerMove();
+  // Determine the winner
+  address winner = compareHands(playerHand, dealerHand);
 
-// Determine the winner
-address winner = compareHands(playerHand, dealerHand);
+  // Pay out the winnings!
+  if (winner == msg.sender) {
+    msg.sender.transfer(betAmount);} 
+    else if (winner == this) {
+    this.transfer(betAmount);} 
+    else {// It's a push! No one wins or loses.}
 
-// Pay out the winnings!
-if (winner == msg.sender) {
-msg.sender.transfer(betAmount);
-} else if (winner == this) {
-this.transfer(betAmount);
-} else {
-// It's a push! No one wins or loses.
-}
-
-// Start a new hand
-newHand();
+  // Start a new hand
+    newHand();
 }
 
 // Function to have the player make their move
 function makePlayerMove() public {
 
 // The player can either hit or stand
-
 // If the player hits, deal them another card
-
 // If the player stands, do nothing
 
 // Check if the player has gone over 21
-if (calculateHandValue(playerHand) > 21) {
-
-// The player busts! The dealer wins.
-this.transfer(betAmount);
+  if (calculateHandValue(playerHand) > 21) {
+    // The player busts! The dealer wins. 
+     this.transfer(betAmount);
 }
 }
 
@@ -95,16 +87,13 @@ this.transfer(betAmount);
 function makeDealerMove() public {
 
 // The dealer must hit on 16 and stand on all 17s
-
 // If the dealer hits, deal them another card
-
-// If the dealer stands, do nothing
+// If thw dealer stands, do nothing
 
 // Check if the dealer has gone over 21
 if (calculateHandValue(dealerHand) > 21) {
-
-// The dealer busts! The player wins.
-msg.sender.transfer(betAmount);
+  // The dealer busts! The player wins.
+  msg.sender.transfer(betAmount);
 }
 }
 }
